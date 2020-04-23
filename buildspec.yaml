@@ -1,0 +1,24 @@
+version: 0.2
+run-as: root
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - echo We are building flask app
+  pre_build:
+    commands:
+      - docker version
+      - aws --version
+      - $(aws ecr get-login --region us-east-1 --no-include-email)
+
+  build:
+    commands:
+      - echo building docker image on date `date`
+      - docker build -t flask-demo:v1 .
+      - docker images
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image into amazon ECR..
+      - docker push flask-demo:v1
