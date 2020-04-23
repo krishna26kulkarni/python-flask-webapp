@@ -11,14 +11,17 @@ phases:
       - docker version
       - aws --version
       - $(aws ecr get-login --region us-east-1 --no-include-email)
+      - REPOSITORY_URI=621074076471.dkr.ecr.us-east-1.amazonaws.com/my-python-web-apps
+      - IMAGE_TAG=latest
 
   build:
     commands:
       - echo building docker image on date `date`
       - docker build -t flask-demo:latest .
       - docker images
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image into amazon ECR..
-      - docker push flask-demo:v1
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
