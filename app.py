@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hey, we have Flask running!'
+    return 'Hey, we have Flask running and trigger running fine!'
 
 
 if __name__ == '__main__':
